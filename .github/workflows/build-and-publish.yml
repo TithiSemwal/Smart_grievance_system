@@ -1,0 +1,69 @@
+name: Build and Publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-dotnet:
+    name: Build .NET solution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: dotnet restore SmartGrievanceSystem.sln
+      - run: dotnet build SmartGrievanceSystem.sln --no-restore -c Release
+
+  docker-web:
+    name: Build & push web image
+    needs: build-dotnet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Set lowercase repo owner
+        run: echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+      - name: Log in to GHCR
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: SmartGrievanceSystem.Web/Dockerfile
+          push: ${{ github.event_name == 'push' }}
+          tags: ghcr.io/${{ env.OWNER_LC }}/smart-grievance-web:latest,ghcr.io/${{ env.OWNER_LC }}/smart-grievance-web:${{ github.sha }}
+
+  docker-ai:
+    name: Build & push AI service image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Set lowercase repo owner
+        run: echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+      - name: Log in to GHCR
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push AI service image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./ai_service
+          push: ${{ github.event_name == 'push' }}
+          tags: ghcr.io/${{ env.OWNER_LC }}/smart-grievance-ai:latest,ghcr.io/${{ env.OWNER_LC }}/smart-grievance-ai:${{ github.sha }}

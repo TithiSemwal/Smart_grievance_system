@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sgs-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sgs-db-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  ai_service:
+    build:
+      context: ./ai_service
+    container_name: sgs-ai-service
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: .
+      dockerfile: SmartGrievanceSystem.web/Dockerfile
+    container_name: sgs-web
+    depends_on:
+      db:
+        condition: service_healthy
+      ai_service:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=SmartGrievanceDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
+      AiService__BaseUrl: "http://ai_service:8000"
+    ports:
+      - "8080:8080"
+
+volumes:
+  sgs-db-data:
