@@ -102,6 +102,44 @@ namespace SmartGrievanceSystem.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Grievance Officer")]
+        public async Task<IActionResult> Triage(int id, string newStatus, string resolutionNotes)
+        {
+            var grievance = await _context.Grievances.FindAsync(id);
+            if (grievance == null) return NotFound();
+
+            var oldStatus = grievance.Status;
+            grievance.Status = newStatus;
+            grievance.UpdatedAt = DateTime.UtcNow;
+
+            if (newStatus == "Resolved" || newStatus == "Closed")
+            {
+                grievance.ResolvedAt = DateTime.UtcNow;
+                if (newStatus == "Closed") grievance.ClosedAt = DateTime.UtcNow;
+                if (!string.IsNullOrEmpty(resolutionNotes))
+                {
+                    grievance.ResolutionNotes = resolutionNotes;
+                }
+            }
+
+            var history = new GrievanceHistory
+            {
+                GrievanceID = id,
+                ActionTaken = $"Status changed from {oldStatus} to {newStatus}",
+                OldValue = oldStatus,
+                NewValue = newStatus,
+                ChangedByUserID = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                Comments = resolutionNotes
+            };
+
+            _context.GrievanceHistories.Add(history);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = grievance.GrievanceID });
+        }
+
         private async Task TriggerAITriage(Grievance grievance)
         {
             try
