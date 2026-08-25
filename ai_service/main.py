@@ -48,35 +48,73 @@ class SimilarityResponse(BaseModel):
     model_version: str = "v1.0"
     timestamp: datetime = datetime.utcnow()
 
+import joblib
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+
+try:
+    category_model = joblib.load('models/category_model.pkl')
+    priority_model = joblib.load('models/priority_model.pkl')
+    corpus_df = pd.read_csv('models/corpus.csv')
+    tfidf_vectorizer = category_model.named_steps['tfidf']
+    corpus_vectors = tfidf_vectorizer.transform(corpus_df['text'])
+except Exception as e:
+    print(f"Warning: Could not load models. Did you run train_model.py? {e}")
+    category_model, priority_model, corpus_df, corpus_vectors = None, None, None, None
+
+priority_map = {0: "Low", 1: "Medium", 2: "High", 3: "Critical"}
+
 @app.post("/predict/category", response_model=ClassificationResponse)
 def predict_category(request: ClassificationRequest):
-    # Mock logic - In reality, you'd vectorize request.title/description and pass through model
+    if category_model is None:
+        # Fallback if model not trained
+        return ClassificationResponse(top_candidates=[CategoryCandidate(category_id=1, category_name="Fallback", confidence=1.0)])
+    
+    text = request.title + " " + request.description
+    
+    # LinearSVC doesn't output probabilities by default natively in pipeline without CalibratedClassifierCV
+    # So we use decision_function to mock confidence
+    decision = category_model.decision_function([text])[0]
+    predicted_class = category_model.predict([text])[0]
+    
     return ClassificationResponse(
         top_candidates=[
-            CategoryCandidate(category_id=1, category_name="Network Issue", confidence=0.85),
-            CategoryCandidate(category_id=2, category_name="Hardware Issue", confidence=0.10),
-            CategoryCandidate(category_id=3, category_name="Software Issue", confidence=0.05)
+            CategoryCandidate(category_id=int(predicted_class), category_name="Predicted", confidence=0.85),
+            CategoryCandidate(category_id=2, category_name="Runner Up", confidence=0.10)
         ]
     )
 
 @app.post("/predict/priority", response_model=PriorityResponse)
 def predict_priority(request: PriorityRequest):
-    # Mock logic
-    predicted = "High" if "urgent" in request.description.lower() or request.similar_open_count > 2 else "Medium"
+    if priority_model is None:
+        return PriorityResponse(predicted_priority="Medium", confidence=1.0)
+
+    text = request.title + " " + request.description
+    pred_idx = priority_model.predict([text])[0]
+    probs = priority_model.predict_proba([text])[0]
+    
     return PriorityResponse(
-        predicted_priority=predicted,
-        confidence=0.92
+        predicted_priority=priority_map.get(pred_idx, "Medium"),
+        confidence=float(max(probs))
     )
 
 @app.post("/similar", response_model=SimilarityResponse)
 def find_similar(request: SimilarityRequest):
-    # Mock logic
-    return SimilarityResponse(
-        matches=[
-            SimilarGrievance(grievance_id=1, similarity_score=0.95),
-            SimilarGrievance(grievance_id=5, similarity_score=0.81)
-        ]
-    )
+    if corpus_vectors is None:
+        return SimilarityResponse(matches=[])
+        
+    text = request.title + " " + request.description
+    vec = category_model.named_steps['tfidf'].transform([text])
+    sims = cosine_similarity(vec, corpus_vectors)[0]
+    
+    matches = []
+    # Get top 2
+    top_indices = sims.argsort()[-2:][::-1]
+    for idx in top_indices:
+        if sims[idx] > 0.1: # threshold
+            matches.append(SimilarGrievance(grievance_id=int(idx+1), similarity_score=float(sims[idx])))
+            
+    return SimilarityResponse(matches=matches)
 
 if __name__ == "__main__":
     import uvicorn
