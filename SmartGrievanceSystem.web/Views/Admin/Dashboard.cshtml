@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5 animate-fade-in">
+    <h1 class="text-heading-lg mb-5">Command Center</h1>
+
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card p-4 animate-fade-in delay-1">
+                <p class="text-caption text-stone-gray mb-1">Open Grievances</p>
+                <p class="text-display m-0 tabular-nums">@ViewBag.OpenCount</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 animate-fade-in delay-1">
+                <p class="text-caption text-stone-gray mb-1">Resolved (Total)</p>
+                <p class="text-display m-0 tabular-nums text-stone-gray">@ViewBag.ResolvedCount</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4" style="background-color: var(--color-midnight-wine); color: white;">
+                <p class="text-caption mb-1" style="opacity: 0.8;">Critical Attention Needed</p>
+                <p class="text-display m-0 tabular-nums">@ViewBag.CriticalCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-4 h-100">
+                <h3 class="text-label-bold mb-4">Grievances by Category</h3>
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-4 h-100">
+                <h3 class="text-label-bold mb-4">AI Accuracy (Rolling)</h3>
+                <canvas id="aiChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Placeholder Charts using design system colors
+    const ctxCategory = document.getElementById('categoryChart');
+    new Chart(ctxCategory, {
+        type: 'doughnut',
+        data: {
+            labels: ['IT/Network', 'HR/Payroll', 'Facilities', 'Admin'],
+            datasets: [{
+                data: [12, 19, 3, 5],
+                backgroundColor: ['#421d24', '#714cb6', '#d4c7ff', '#0c4243'],
+                borderWidth: 0
+            }]
+        },
+        options: { cutout: '70%' }
+    });
+
+    const ctxAi = document.getElementById('aiChart');
+    new Chart(ctxAi, {
+        type: 'bar',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Category Accept %',
+                data: [65, 72, 78, 85],
+                backgroundColor: '#714cb6'
+            }]
+        }
+    });
+</script>
+

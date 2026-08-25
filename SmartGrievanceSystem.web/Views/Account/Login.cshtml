@@ -1,0 +1,86 @@
+@model SmartGrievanceSystem.Web.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null; // No standard header/footer for the split login view
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Smart Grievance System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/variables.css" />
+    <style>
+        .split-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .split-left {
+            flex: 1;
+            background-color: var(--color-deep-lagoon);
+            color: var(--color-paper-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-10);
+        }
+        .split-right {
+            flex: 1;
+            background-color: var(--color-warm-parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-control {
+            font-size: var(--text-body-size);
+            border: 1px solid var(--color-soft-mist);
+            border-radius: var(--radius-small);
+            padding: var(--spacing-3);
+        }
+        .form-control:focus {
+            box-shadow: var(--shadow-subtle);
+            border-color: var(--color-royal-violet);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 480px;
+        }
+    </style>
+</head>
+<body>
+    <div class="split-layout">
+        <div class="split-left">
+            <div>
+                <h1 class="text-display mb-4">Smart<br/>Grievance<br/>System</h1>
+                <p class="text-heading-sm" style="opacity: 0.8;">AI-Assisted Organizational Triage</p>
+            </div>
+        </div>
+        <div class="split-right animate-fade-in">
+            <div class="card auth-card p-5 animate-fade-in delay-1">
+                <h2 class="text-heading-sm mb-4 text-center">Welcome Back</h2>
+                <form asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="mb-4">
+                        <label asp-for="Email" class="form-label text-body-sm font-weight-bold">Email</label>
+                        <input asp-for="Email" class="form-control" placeholder="name@company.com" />
+                        <span asp-validation-for="Email" class="text-danger text-caption"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label asp-for="Password" class="form-label text-body-sm font-weight-bold">Password</label>
+                        <input asp-for="Password" class="form-control" placeholder="••••••••" />
+                        <span asp-validation-for="Password" class="text-danger text-caption"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary-wine w-100 mb-3">Sign In</button>
+                    <div class="text-center">
+                        <a asp-action="Register" class="inline-link text-body-sm">Don't have an account? Register</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

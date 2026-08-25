@@ -1,0 +1,77 @@
+@model SmartGrievanceSystem.Core.Models.Grievance
+@{
+    ViewData["Title"] = "Grievance Details";
+}
+
+<div class="container mt-5 animate-fade-in">
+    <div class="mb-4">
+        <a asp-action="Index" class="inline-link text-body-sm">&larr; Back to My Grievances</a>
+    </div>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-md-8">
+            <h1 class="text-subheading mb-2">@Model.Title</h1>
+            <p class="text-caption text-stone-gray mb-4 tabular-nums">@Model.GrievanceCode &bull; Submitted on @Model.CreatedAt.ToString("MMM dd, yyyy HH:mm")</p>
+
+            <div class="card mb-4 p-4 animate-fade-in delay-1">
+                <h3 class="text-label-bold mb-3">Description</h3>
+                <p style="white-space: pre-wrap;">@Model.Description</p>
+            </div>
+            
+            @if (Model.Status == "Resolved" || Model.Status == "Closed")
+            {
+                <div class="card mb-4 p-4" style="background-color: var(--color-warm-parchment);">
+                    <h3 class="text-label-bold mb-3">Resolution Notes</h3>
+                    <p style="white-space: pre-wrap;">@(string.IsNullOrEmpty(Model.ResolutionNotes) ? "No notes provided." : Model.ResolutionNotes)</p>
+                </div>
+            }
+
+            <h3 class="text-heading-sm mt-5 mb-4">Timeline</h3>
+            <div class="ms-3 border-start border-2 px-4 pb-4" style="border-color: var(--color-soft-mist) !important;">
+                @foreach (var history in Model.Histories)
+                {
+                    <div class="mb-4 position-relative">
+                        <div class="position-absolute rounded-circle" style="width: 12px; height: 12px; background-color: var(--color-ink-charcoal); left: -1.75rem; top: 0.3rem;"></div>
+                        <p class="text-body font-weight-bold mb-1">@history.ActionTaken</p>
+                        <p class="text-caption text-stone-gray mb-2">@history.ChangeDate.ToString("MMM dd, HH:mm")</p>
+                        @if (!string.IsNullOrEmpty(history.Comments))
+                        {
+                            <p class="text-body-sm bg-light p-3 rounded">@history.Comments</p>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar / Status -->
+        <div class="col-md-4">
+            <div class="card p-4 sticky-top" style="top: 2rem;">
+                <h3 class="text-label-bold mb-4">Status Overview</h3>
+                
+                <div class="mb-3">
+                    <p class="text-caption text-stone-gray mb-1">Current Status</p>
+                    <span class="badge rounded-pill text-caption px-3 py-2" style="background-color: var(--color-lilac-mist); color: var(--color-ink-charcoal);">
+                        @Model.Status
+                    </span>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-caption text-stone-gray mb-1">Priority</p>
+                    <p class="font-weight-bold mb-0">@Model.Priority</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-caption text-stone-gray mb-1">Category</p>
+                    <p class="font-weight-bold mb-0">@(Model.Category?.CategoryName ?? "Pending Triage")</p>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-caption text-stone-gray mb-1">Assigned Officer</p>
+                    <p class="font-weight-bold mb-0">@(Model.AssignedOfficer?.FullName ?? "Unassigned")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
