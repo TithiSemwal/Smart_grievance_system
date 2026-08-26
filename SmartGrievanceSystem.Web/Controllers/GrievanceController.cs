@@ -15,11 +15,13 @@ namespace SmartGrievanceSystem.Web.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public GrievanceController(AppDbContext context, IHttpClientFactory httpClientFactory)
+        public GrievanceController(AppDbContext context, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _context = context;
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index()
@@ -149,7 +151,8 @@ namespace SmartGrievanceSystem.Web.Controllers
                 // Call Category Prediction
                 var catReq = new { title = grievance.Title, description = grievance.Description };
                 var catContent = new StringContent(JsonSerializer.Serialize(catReq), Encoding.UTF8, "application/json");
-                var catRes = await client.PostAsync("http://localhost:8000/predict/category", catContent);
+                var aiBaseUrl = _configuration["AiService:BaseUrl"] ?? "http://localhost:8000";
+                var catRes = await client.PostAsync($"{aiBaseUrl}/predict/category", catContent);
                 
                 if (catRes.IsSuccessStatusCode)
                 {
@@ -165,7 +168,7 @@ namespace SmartGrievanceSystem.Web.Controllers
                     // Call Priority Prediction
                     var priReq = new { title = grievance.Title, description = grievance.Description, predicted_category_id = predictedCategoryId };
                     var priContent = new StringContent(JsonSerializer.Serialize(priReq), Encoding.UTF8, "application/json");
-                    var priRes = await client.PostAsync("http://localhost:8000/predict/priority", priContent);
+                    var priRes = await client.PostAsync($"{aiBaseUrl}/predict/priority", priContent);
                     var priData = await priRes.Content.ReadAsStringAsync();
                     
                     using var pdoc = JsonDocument.Parse(priData);
@@ -187,7 +190,7 @@ namespace SmartGrievanceSystem.Web.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // In a real app, log error. Triage failure shouldn't block submission.
             }

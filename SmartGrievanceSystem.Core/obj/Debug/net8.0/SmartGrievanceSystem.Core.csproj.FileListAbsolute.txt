@@ -1,0 +1,11 @@
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\bin\Debug\net8.0\SmartGrievanceSystem.Core.deps.json
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\bin\Debug\net8.0\SmartGrievanceSystem.Core.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\bin\Debug\net8.0\SmartGrievanceSystem.Core.pdb
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\SmartGrievanceSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\SmartGrievanceSystem.Core.AssemblyInfoInputs.cache
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\SmartGrievanceSystem.Core.AssemblyInfo.cs
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\SmartGrievanceSystem.Core.csproj.CoreCompileInputs.cache
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\SmartGrievanceSystem.Core.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\refint\SmartGrievanceSystem.Core.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\SmartGrievanceSystem.Core.pdb
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Core\obj\Debug\net8.0\ref\SmartGrievanceSystem.Core.dll

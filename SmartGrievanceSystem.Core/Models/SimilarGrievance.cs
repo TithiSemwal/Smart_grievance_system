@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartGrievanceSystem.Core.Models
 {
     public class SimilarGrievance
     {
+        [Key]
         public int SimilarityID { get; set; }
         public int PrimaryGrievanceID { get; set; }
         public int SimilarGrievanceID { get; set; }

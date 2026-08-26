@@ -1,0 +1,17 @@
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\bin\Debug\net8.0\SmartGrievanceSystem.Infrastructure.deps.json
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\bin\Debug\net8.0\SmartGrievanceSystem.Infrastructure.runtimeconfig.json
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\bin\Debug\net8.0\SmartGrievanceSystem.Infrastructure.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\bin\Debug\net8.0\SmartGrievanceSystem.Infrastructure.pdb
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\bin\Debug\net8.0\SmartGrievanceSystem.Core.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\bin\Debug\net8.0\SmartGrievanceSystem.Core.pdb
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.AssemblyInfo.cs
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGri.B6662985.Up2Date
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\refint\SmartGrievanceSystem.Infrastructure.dll
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.pdb
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\SmartGrievanceSystem.Infrastructure.genruntimeconfig.cache
+C:\Users\harsh\.gemini\antigravity\scratch\SmartGrievanceSystem\SmartGrievanceSystem.Infrastructure\obj\Debug\net8.0\ref\SmartGrievanceSystem.Infrastructure.dll

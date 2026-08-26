@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartGrievanceSystem.Core.Models
 {
     public class GrievanceAIRecommendation
     {
+        [Key]
         public int RecommendationID { get; set; }
         public int GrievanceID { get; set; }
         public int? PredictedCategoryID { get; set; }

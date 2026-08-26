@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartGrievanceSystem.Core.Models
 {
     public class GrievanceHistory
     {
+        [Key]
         public int HistoryID { get; set; }
         public int GrievanceID { get; set; }
         public string ActionTaken { get; set; }

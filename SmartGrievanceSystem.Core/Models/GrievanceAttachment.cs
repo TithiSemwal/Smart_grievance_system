@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartGrievanceSystem.Core.Models
 {
     public class GrievanceAttachment
     {
+        [Key]
         public int AttachmentID { get; set; }
         public int GrievanceID { get; set; }
         public string FilePath { get; set; }
